@@ -16,6 +16,10 @@ export interface GuiderHandler {
   previous: () => void;
 }
 
+const maskUniqueId = "guider-unique-mask-id";
+const popoverUniqueId = "popover-unique-id";
+const maskClassName = "ant-modal-mask";
+
 export default function Guider(
   configs: GuiderStep[],
   mask = true
@@ -62,15 +66,15 @@ export default function Guider(
       if (mask) {
         container?.style.setProperty("z-index", "1001");
         maskNode = document.createElement("div");
-        maskNode.id = "guider-unique-mask-id";
-        maskNode.className = "ant-modal-mask";
+        maskNode.id = maskUniqueId;
+        maskNode.className = maskClassName;
         document.body.appendChild(maskNode);
       }
-      newRoot.id = "popover-unique-id";
+      newRoot.id = popoverUniqueId;
       container?.appendChild(newRoot);
     } else {
-      newRoot = document.getElementById("popover-unique-id");
-      maskNode = document.getElementById("guider-unique-mask-id");
+      newRoot = document.getElementById(popoverUniqueId);
+      maskNode = document.getElementById(maskUniqueId);
     }
 
     const _title = (
@@ -86,24 +90,26 @@ export default function Guider(
       </div>
     );
 
+    const len = configs.length - 1;
+
     const _content = (
       <div>
         {content}
         <footer style={{ textAlign: "right", marginTop: 8 }}>
           <Space>
-            {step > 0 && step <= configs.length - 1 && (
+            {step > 0 && step <= len && (
               <Button size="small" onClick={previous}>
-                {previousText || "previous"}
+                {previousText || "Previous"}
               </Button>
             )}
-            {step < configs.length - 1 && (
+            {step < len && (
               <Button size="small" onClick={next} type="primary">
-                {nextText || "next"}
+                {nextText || "Next"}
               </Button>
             )}
-            {step === configs.length - 1 && (
+            {step === len && (
               <Button onClick={close} size="small" type="primary">
-                {closeText || "close"}
+                {closeText || "Close"}
               </Button>
             )}
           </Space>
