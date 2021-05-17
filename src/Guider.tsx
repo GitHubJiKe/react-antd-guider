@@ -16,7 +16,10 @@ export interface GuiderHandler {
   previous: () => void;
 }
 
-export default function Guider(configs: GuiderStep[]): GuiderHandler {
+export default function Guider(
+  configs: GuiderStep[],
+  mask = true
+): GuiderHandler {
   let step = 0;
   let status: boolean = false;
 
@@ -52,14 +55,21 @@ export default function Guider(configs: GuiderStep[]): GuiderHandler {
       ...props
     } = conf;
     let container = document.getElementById(containerId);
-    let newRoot;
+    let newRoot, maskNode;
 
     if (visible) {
       newRoot = document.createElement("div");
+      if (mask) {
+        maskNode = document.createElement("div");
+        maskNode.id = "guider-unique-mask-id";
+        maskNode.className = "ant-modal-mask";
+        document.body.appendChild(maskNode);
+      }
       newRoot.id = "popover-unique-id";
       container?.appendChild(newRoot);
     } else {
       newRoot = document.getElementById("popover-unique-id");
+      maskNode = document.getElementById("guider-unique-mask-id");
     }
 
     const _title = (
@@ -101,6 +111,10 @@ export default function Guider(configs: GuiderStep[]): GuiderHandler {
     );
 
     if (!visible) {
+      if (mask && maskNode) {
+        document.body.removeChild(maskNode);
+      }
+
       container?.removeChild(newRoot!);
       unmountComponentAtNode(newRoot!);
     } else {
