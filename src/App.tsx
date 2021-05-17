@@ -66,6 +66,14 @@ function App() {
   }, []);
   return (
     <div className="App">
+      <h1 style={{ position: "absolute", top: 0 }}>
+        <a
+          target="_blank"
+          href="https://github.com/GitHubJiKe/react-antd-guider"
+        >
+          react-antd-guider
+        </a>
+      </h1>
       <Button
         id="btn1"
         style={{ position: "absolute", top: 0, left: 0 }}
