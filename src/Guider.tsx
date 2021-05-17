@@ -60,6 +60,7 @@ export default function Guider(
     if (visible) {
       newRoot = document.createElement("div");
       if (mask) {
+        container?.style.setProperty("z-index", "1001");
         maskNode = document.createElement("div");
         maskNode.id = "guider-unique-mask-id";
         maskNode.className = "ant-modal-mask";
@@ -112,6 +113,7 @@ export default function Guider(
 
     if (!visible) {
       if (mask && maskNode) {
+        container?.style.setProperty("z-index", "");
         document.body.removeChild(maskNode);
       }
 
