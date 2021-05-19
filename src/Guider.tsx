@@ -47,6 +47,9 @@ export default function Guider(
   }
 
   function open(visible = true) {
+    if (status && visible) {
+      return;
+    }
     const conf: GuiderStep = configs[step];
     status = visible;
     const {
