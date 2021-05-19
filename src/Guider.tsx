@@ -1,13 +1,17 @@
 import { Popover, Button, PopoverProps, Space } from "antd";
-import React from "react";
+import React, { cloneElement, isValidElement } from "react";
 import { render, unmountComponentAtNode } from "react-dom";
 import { CloseOutlined } from "@ant-design/icons";
 
 export interface GuiderStep extends PopoverProps {
-  containerId: string;
-  nextText?: string;
-  closeText?: string;
-  previousText?: string;
+  /** 锚点节点Id */
+  anchorPointId: string;
+  /** 下一步按钮 or 文案 */
+  nextText?: React.ReactNode;
+  /** 关闭按钮 or 文案 */
+  closeText?: React.ReactNode;
+  /** 上一步按钮 or 文案 */
+  previousText?: React.ReactNode;
 }
 
 export interface GuiderHandler {
@@ -55,13 +59,13 @@ export default function Guider(
     const {
       title,
       content,
-      containerId,
+      anchorPointId,
       nextText,
       closeText,
       previousText,
       ...props
     } = conf;
-    let container = document.getElementById(containerId);
+    let container = document.getElementById(anchorPointId);
     let newRoot, maskNode;
 
     if (visible) {
@@ -95,26 +99,38 @@ export default function Guider(
 
     const len = configs.length - 1;
 
+    const previousBtn = isValidElement(previousText) ? (
+      cloneElement(previousText, { onClick: previous })
+    ) : (
+      <Button size="small" onClick={previous}>
+        {previousText || "Previous"}
+      </Button>
+    );
+
+    const nextBtn = isValidElement(nextText) ? (
+      cloneElement(nextText, { onClick: next })
+    ) : (
+      <Button size="small" onClick={next} type="primary">
+        {nextText || "Next"}
+      </Button>
+    );
+
+    const closeBtn = isValidElement(closeText) ? (
+      cloneElement(closeText, { onClick: close })
+    ) : (
+      <Button onClick={close} size="small" type="primary">
+        {closeText || "Close"}
+      </Button>
+    );
+
     const _content = (
       <div>
         {content}
         <footer style={{ textAlign: "right", marginTop: 8 }}>
           <Space>
-            {step > 0 && step <= len && (
-              <Button size="small" onClick={previous}>
-                {previousText || "Previous"}
-              </Button>
-            )}
-            {step < len && (
-              <Button size="small" onClick={next} type="primary">
-                {nextText || "Next"}
-              </Button>
-            )}
-            {step === len && (
-              <Button onClick={close} size="small" type="primary">
-                {closeText || "Close"}
-              </Button>
-            )}
+            {step > 0 && step <= len && previousBtn}
+            {step < len && nextBtn}
+            {step === len && closeBtn}
           </Space>
         </footer>
       </div>

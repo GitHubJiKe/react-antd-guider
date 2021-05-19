@@ -8,15 +8,15 @@ const guiderConfigs: GuiderStep[] = [
   {
     title: "第一步",
     content: "第一步的内容",
-    containerId: "btn1",
+    anchorPointId: "btn1",
     placement: "bottomRight",
-    nextText: "下一步",
+    nextText: <Button type="dashed">定制的下一步按钮</Button>,
     closeText: "关闭",
   },
   {
     title: "第二步",
     content: "第二步的内容",
-    containerId: "btn2",
+    anchorPointId: "btn2",
     placement: "bottomLeft",
     previousText: "上一步",
     nextText: "下一步",
@@ -24,7 +24,7 @@ const guiderConfigs: GuiderStep[] = [
   {
     title: "第三步",
     content: "第三步的内容",
-    containerId: "btn3",
+    anchorPointId: "btn3",
     placement: "topRight",
     previousText: "上一步",
     nextText: "下一步",
@@ -32,7 +32,7 @@ const guiderConfigs: GuiderStep[] = [
   {
     title: "第四步",
     content: "第四步的内容",
-    containerId: "btn4",
+    anchorPointId: "btn4",
     placement: "topLeft",
     previousText: "上一步",
     nextText: "下一步",
@@ -49,7 +49,7 @@ const guiderConfigs: GuiderStep[] = [
         </article>
       </div>
     ),
-    containerId: "btn5",
+    anchorPointId: "btn5",
     previousText: "上一步",
     closeText: "知道了",
   },
